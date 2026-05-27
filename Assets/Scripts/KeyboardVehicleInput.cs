@@ -1,4 +1,5 @@
 // KeyboardVehicleInput.cs
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,7 +18,12 @@ public class KeyboardVehicleInput : IVehicleInput
 
     public void Update()
     {
-        if (_keyboard == null) return;
+        if (_keyboard == null)
+        {
+            Console.WriteLine($"Keyboard not found.");
+            return;
+        }
+
 
         float forward = _keyboard.wKey.isPressed ? 1f : 0f;
         float backward = _keyboard.sKey.isPressed ? 1f : 0f;

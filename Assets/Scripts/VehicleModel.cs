@@ -18,7 +18,7 @@ public class VehicleModel
         }
     }
 
-    public float CurrentSpeed { get; private set; } // можно расширить позже
+    public float CurrentSpeed { get; private set; } // нужно расширить позже
 
     public VehicleModel(Vehicle settings)
     {
@@ -26,6 +26,4 @@ public class VehicleModel
     }
 
     public void ToggleEngine() => IsEngineOn = !IsEngineOn;
-
-    // Можно добавить методы: Accelerate, Brake и т.д.
 }

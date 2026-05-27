@@ -29,6 +29,5 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = newState;
         Debug.Log($"GameState → {newState}");
-        // Здесь можно рассылать события, отключать UI, паузить физику и т.д.
     }
 }

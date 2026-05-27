@@ -6,6 +6,6 @@ public interface IVehicleInput
 {
     float MoveInput { get; }
     float TurnInput { get; }
-    bool EngineTogglePressed { get; }   // для кнопки включения двигателя
+    bool EngineTogglePressed { get; }
     public void Update();
 }

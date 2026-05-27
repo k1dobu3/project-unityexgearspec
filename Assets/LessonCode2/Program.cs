@@ -99,10 +99,10 @@ namespace CourseStart
 
 
             // 2.3
-            short s = 0;
+            //short s = 0;
             int i = 0;
             long l = 0;
-            float f = 0;
+            //float f = 0;
             double d = 0;
 
 
@@ -121,7 +121,7 @@ namespace CourseStart
             TestFunc(ref i);
 
 
-            var c = 0f;
+            //var c = 0f;
 
 
             if (o != null)
