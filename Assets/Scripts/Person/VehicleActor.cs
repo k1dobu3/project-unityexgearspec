@@ -1,85 +1,70 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class VehicleActor : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class VehicleController : MonoBehaviour
 {
     [Header("Настройки")]
-    public Vehicle settingsData;
-
-    private bool currentEngineState;
+    [SerializeField] private Vehicle settingsData;
 
     private Rigidbody rb;
-    private float moveInput;
-    private float turnInput;
-    private Vector3 BodyRotation;
+    private VehicleModel model;
+    private IVehicleInput input;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        if (rb == null) Debug.LogError("Rigidbody is empty");
+        model = new VehicleModel(settingsData);
+        input = new KeyboardVehicleInput();
 
         if (settingsData != null)
-        {
-            currentEngineState = settingsData.IsEngineOn;
-        }
+            rb.mass = settingsData.VehicleMass;
 
-
-        // Data setup
-
-        rb.mass = settingsData.VehicleMass;
-
-        //
-
-        EngineSetup();
+        // Подписка на события модели
+        model.OnEngineStateChanged += OnEngineStateChanged;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        var keyboard = Keyboard.current;
-        if (keyboard == null) return;
+        if (GameManager.Instance.CurrentState != GameState.Playing) return;
 
-        float forward = keyboard.wKey.isPressed ? 1f : 0f;
-        float backward = keyboard.sKey.isPressed ? 1f : 0f;
-        moveInput = forward - backward;
+        input.Update();                    // обновляем ввод
 
-        float right = keyboard.dKey.isPressed ? 1f : 0f;
-        float left = keyboard.aKey.isPressed ? 1f : 0f;
-        turnInput = right - left;
+        if (input.EngineTogglePressed)
+            model.ToggleEngine();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
+        if (GameManager.Instance.CurrentState != GameState.Playing || !model.IsEngineOn)
+            return;
+
         ApplyMovement();
     }
 
-    private void SetChassisParts()
+    private void ApplyMovement()
     {
-
-    }
-
-    private void EngineSetup()
-    {
-        currentEngineState = !currentEngineState;
-    }
-
-    void ApplyMovement()
-    {
-        if (settingsData == null) return;
-
-        // Рассчитываем вектор направления (вперед/назад)
-        Vector3 forceDirection = transform.forward * moveInput;
-
-        // Прикладываем силу
-        // В Unity AddForce принимает (Вектор силы * Значение скорости)
+        // Движение вперёд/назад
+        Vector3 forceDirection = transform.forward * input.MoveInput;
         rb.AddForce(forceDirection * settingsData.MaxVehicleSpeed, ForceMode.Acceleration);
 
-        // Для поворота (опционально) используем крутящий момент
-        if (turnInput != 0)
+        // Поворот (исправленная версия)
+        if (Mathf.Abs(input.TurnInput) > 0.01f)
         {
-            Quaternion deltaRotation = Quaternion.Euler(BodyRotation * Time.deltaTime);
+            float turnAmount = input.TurnInput * settingsData.TurnSpeed * Time.fixedDeltaTime;
+            Quaternion deltaRotation = Quaternion.Euler(0, turnAmount, 0);
             rb.MoveRotation(rb.rotation * deltaRotation);
         }
+    }
+
+    private void OnEngineStateChanged(bool isOn)
+    {
+        Debug.Log($"Двигатель: {(isOn ? "ВКЛ" : "ВЫКЛ")}");
+        // Здесь можно запустить звук, частицы и т.д.
+    }
+
+    private void OnDestroy()
+    {
+        if (model != null)
+            model.OnEngineStateChanged -= OnEngineStateChanged;
     }
 }
