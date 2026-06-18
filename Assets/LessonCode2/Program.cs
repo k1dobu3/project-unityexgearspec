@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace CourseStart
 {
-    //Необходим раскомментировать нужные блоки в процессе просмотра видео
-    //Для того чтобы раскомментировать код, нужно удалить /* */
-    //Код, который находится под комментированием не используется для выполнения
     internal class Program
     {
 
@@ -20,7 +17,7 @@ namespace CourseStart
 
             public void Print()
             {
-                Console.WriteLine($"Улица {street}, {number}");
+                Console.WriteLine($"Г“Г«ГЁГ¶Г  {street}, {number}");
             }
         }
 
@@ -38,15 +35,15 @@ namespace CourseStart
             //int c = 10;
             //if (b > a)
             //{
-            //    Console.WriteLine($"Число {b} больше числа {a}");
+            //    Console.WriteLine($"Г—ГЁГ±Г«Г® {b} ГЎГ®Г«ГјГёГҐ Г·ГЁГ±Г«Г  {a}");
             //}
             //else if (b < a)
             //{
-            //    Console.WriteLine($"Число {b} меньше числа {a}");
+            //    Console.WriteLine($"Г—ГЁГ±Г«Г® {b} Г¬ГҐГ­ГјГёГҐ Г·ГЁГ±Г«Г  {a}");
             //}
             //else
             //{
-            //    Console.WriteLine($"Число {b} равно числу {a}");
+            //    Console.WriteLine($"Г—ГЁГ±Г«Г® {b} Г°Г ГўГ­Г® Г·ГЁГ±Г«Гі {a}");
             //}
 
             //for (int i = 1; i < 10; i++)
@@ -87,12 +84,12 @@ namespace CourseStart
             //{
             //    Console.WriteLine($"{name}, {age}");
             //}
-            //Human("Кирилл", 22);
+            //Human("ГЉГЁГ°ГЁГ«Г«", 22);
 
 
 
             //House tower = new House();
-            //tower.street = "Красная";
+            //tower.street = "ГЉГ°Г Г±Г­Г Гї";
             //tower.number = 50;
 
             //tower.Print();
